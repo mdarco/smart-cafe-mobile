@@ -17,7 +17,6 @@ const TOKEN_KEY = 'df_access_token';
 })
 export class AuthService {
   apiUrl = environment.apiUrl;
-  userModel = null;
 
   authenticationState = new BehaviorSubject(false);
 
@@ -43,19 +42,21 @@ export class AuthService {
   }
 
   login(credentials) {
-    return this.http.post(`${this.apiUrl}/api/login`, credentials)
+    console.log('Credentials', credentials);
+    return this.http.post(`${this.apiUrl}/login`, credentials)
       .pipe(
         tap(response => {
           // console.log('Login service response', response);
-          if (response['IsAuthenticated']) {
-            this.storage.set(TOKEN_KEY, response['Token']);
-            this.userModel = response;
-            this.authenticationState.next(true);
-          } else {
+          if (!response || !response['isAuthenticated']) {
             throw new Error('Korisničko ime i/ili lozinka nisu ispravni.');
+          } else {
+            this.storage.set(TOKEN_KEY, response['Token']);
+            // TODO: extract user data from token!
+            this.authenticationState.next(true);
           }
         }),
         catchError(e => {
+          // console.log('Error', e);
           throw new Error('Korisničko ime i/ili lozinka nisu ispravni.');
         })
       );

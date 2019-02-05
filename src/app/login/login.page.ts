@@ -36,18 +36,18 @@ export class LoginPage implements OnInit, OnDestroy {
     await loading.present();
 
     this.login$ = this.authService.login({
-      Username: this.username,
-      Password: btoa(this.password)
+      username: this.username,
+      password: btoa(this.password)
     }).subscribe(
       result => {},
       error => {
         // console.log('LOGIN ERROR', error);
-        console.log('DF API url:', environment.apiUrl);
+        console.log('API url:', environment.apiUrl);
         loading.dismiss();
         this.username = undefined;
         this.password = undefined;
         this.showAlert(error.message);
-      }, 
+      },
       () => {
         // console.log('LOGIN FINALLY');
         loading.dismiss();
