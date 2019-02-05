@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 
-const TOKEN_KEY = 'df_access_token';
+const TOKEN_KEY = 'sc_access_token';
 
 @Injectable({
   providedIn: 'root'
