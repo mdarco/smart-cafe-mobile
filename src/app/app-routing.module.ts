@@ -18,15 +18,20 @@ const routes: Routes = [
     loadChildren: './login/login.module#LoginPageModule'
   },
   {
-    path: 'list',
-    loadChildren: './list/list.module#ListPageModule',
-    canActivate: [UserAuthenticatedGuardService]
-  },
-  {
-    path: 'list/:id',
-    loadChildren: './member/member.module#MemberPageModule',
-    canActivate: [UserAuthenticatedGuardService]
+    path: 'categories',
+    loadChildren: './categories/categories/categories.module#CategoriesPageModule'
   }
+
+  // {
+  //   path: 'list',
+  //   loadChildren: './list/list.module#ListPageModule',
+  //   canActivate: [UserAuthenticatedGuardService]
+  // },
+  // {
+  //   path: 'list/:id',
+  //   loadChildren: './member/member.module#MemberPageModule',
+  //   canActivate: [UserAuthenticatedGuardService]
+  // },
 ];
 
 @NgModule({

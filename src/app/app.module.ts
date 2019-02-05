@@ -17,7 +17,7 @@ import { environment } from '../environments/environment';
 export function jwtOptionsFactory(storage) {
   return {
     tokenGetter: () => {
-      return storage.get('df_access_token');
+      return storage.get('sc_access_token');
     },
 
     whitelistedDomains: [environment.apiUrl]

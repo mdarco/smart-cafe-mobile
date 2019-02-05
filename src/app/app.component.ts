@@ -42,7 +42,7 @@ export class AppComponent {
       this.authService.authenticationState.subscribe(state => {
         this.hideMenu = !this.authService.isAuthenticated();
         if (state) {
-          this.router.navigate(['list']);
+          this.router.navigate(['categories']);
         } else {
           this.router.navigate(['login']);
         }

@@ -42,7 +42,7 @@ export class AuthService {
   }
 
   login(credentials) {
-    console.log('Credentials', credentials);
+    // console.log('Credentials', credentials);
     return this.http.post(`${this.apiUrl}/login`, credentials)
       .pipe(
         tap(response => {
