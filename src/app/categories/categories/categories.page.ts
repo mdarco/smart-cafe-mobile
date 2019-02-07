@@ -36,13 +36,13 @@ export class CategoriesPage implements OnInit {
 
     this.productList$ = this.productService.getProductList().subscribe(
       (response: any) => {
-        // console.log('RESPONSE', response);
-        if (response && response.length > 0) {
+        console.log('RESPONSE', response);
+        if (response) {
           this.productList = response;
         }
       },
       error => {
-        // console.log('MEMBERS ERROR', error);
+        // console.log('PRODUCT LIST ERROR', error);
         this.productList = [];
         this.showAlert('Došlo je do greške prilikom preuzimanja liste artikala.');
       },
