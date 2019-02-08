@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { MembersService } from '../services/members/members.service';
+// import { MembersService } from '../services/members/members.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -12,13 +12,15 @@ export class MemberPage implements OnInit, OnDestroy {
   headerMemberName: string = '< header_member_name >';
   headerMemberName$: Subscription;
 
-  constructor(private membersService: MembersService) { }
+  constructor(
+    // private membersService: MembersService
+  ) { }
 
   ngOnInit() {
-    this.headerMemberName$ = this.membersService.memberDetails_header_memberName$.subscribe(name => this.headerMemberName = name);
+    // this.headerMemberName$ = this.membersService.memberDetails_header_memberName$.subscribe(name => this.headerMemberName = name);
   }
 
   ngOnDestroy() {
-    this.headerMemberName$.unsubscribe();
+    // this.headerMemberName$.unsubscribe();
   }
 }

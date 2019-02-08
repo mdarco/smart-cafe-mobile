@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoadingController, AlertController, ToastController, ModalController } from '@ionic/angular';
 
-import { MembersService } from '../services/members/members.service';
+// import { MembersService } from '../services/members/members.service';
 
 import { ListFilterComponent } from '../list-filter/list-filter.component';
 
@@ -26,7 +26,7 @@ export class ListPage implements OnInit, OnDestroy {
   membersDisplayed?: number = null;
 
   constructor(
-    private membersService: MembersService,
+    // private membersService: MembersService,
     private loadingController: LoadingController,
     private alertController: AlertController,
     private toastController: ToastController,
@@ -49,35 +49,35 @@ export class ListPage implements OnInit, OnDestroy {
 
     await loading.present();
 
-    this.getMembers$ = this.membersService.getFilteredMembers(this.filter).subscribe(
-      response => {
-        // console.log('RESPONSE', response);
-        if (response && response['Data'] && response['Data'].length > 0) {
-          if (noConcat) {
-            this.members = response['Data'];
-          } else {
-            this.members = this.members.concat(response['Data']);
-          }
+    // this.getMembers$ = this.membersService.getFilteredMembers(this.filter).subscribe(
+    //   response => {
+    //     // console.log('RESPONSE', response);
+    //     if (response && response['Data'] && response['Data'].length > 0) {
+    //       if (noConcat) {
+    //         this.members = response['Data'];
+    //       } else {
+    //         this.members = this.members.concat(response['Data']);
+    //       }
 
-          this.membersTotal = response['Total'];
-          this.membersDisplayed = this.filter.PageNo * this.filter.RecordsPerPage;
+    //       this.membersTotal = response['Total'];
+    //       this.membersDisplayed = this.filter.PageNo * this.filter.RecordsPerPage;
 
-          if (this.membersTotal < this.membersDisplayed) {
-            this.membersDisplayed = this.membersTotal;
-          }
-        }
-      },
-      error => {
-        // console.log('MEMBERS ERROR', error);
-        this.members = [];
-        this.membersTotal = null;
-        this.membersDisplayed = null;
-        this.showAlert('Došlo je do greške prilikom preuzimanja liste plesača.');
-      },
-      () => {
-        loading.dismiss();
-      }
-    );
+    //       if (this.membersTotal < this.membersDisplayed) {
+    //         this.membersDisplayed = this.membersTotal;
+    //       }
+    //     }
+    //   },
+    //   error => {
+    //     // console.log('MEMBERS ERROR', error);
+    //     this.members = [];
+    //     this.membersTotal = null;
+    //     this.membersDisplayed = null;
+    //     this.showAlert('Došlo je do greške prilikom preuzimanja liste plesača.');
+    //   },
+    //   () => {
+    //     loading.dismiss();
+    //   }
+    // );
   }
 
   resetFilter() {
@@ -102,11 +102,11 @@ export class ListPage implements OnInit, OnDestroy {
   }
 
   setHeaderMemberName(name) {
-    this.membersService.setMemberDetailsHeaderMemberName(name);
+    // this.membersService.setMemberDetailsHeaderMemberName(name);
   }
 
   setContentMemberDetails(memberDetails) {
-    this.membersService.setMemberDetailsContent(memberDetails);
+    // this.membersService.setMemberDetailsContent(memberDetails);
   }
 
   async showFilterDialog() {

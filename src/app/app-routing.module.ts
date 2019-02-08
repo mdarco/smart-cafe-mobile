@@ -19,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: 'categories',
-    loadChildren: './categories/categories/categories.module#CategoriesPageModule'
+    loadChildren: './categories/categories.module#CategoriesPageModule'
   }
 
   // {

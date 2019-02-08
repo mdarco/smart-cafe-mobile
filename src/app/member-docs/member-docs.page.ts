@@ -5,7 +5,7 @@ import { LoadingController, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 
-import { MembersService } from '../services/members/members.service';
+// import { MembersService } from '../services/members/members.service';
 
 @Component({
   selector: 'app-member-docs',
@@ -19,16 +19,16 @@ export class MemberDocsPage implements OnInit {
   memberDocs: any;
 
   constructor(
-    private membersService: MembersService,
+    // private membersService: MembersService,
     private loadingController: LoadingController,
     private toastController: ToastController
   ) { }
 
   ngOnInit() {
-    this.memberDetails$ = this.membersService.memberDetails_content$.subscribe(details => {
-      const memberId = details['MemberID'];
-      this.getMemberDocuments(memberId);
-    });
+    // this.memberDetails$ = this.membersService.memberDetails_content$.subscribe(details => {
+    //   const memberId = details['MemberID'];
+    //   this.getMemberDocuments(memberId);
+    // });
   }
 
   ngOnDestroy() {
@@ -44,22 +44,22 @@ export class MemberDocsPage implements OnInit {
 
     await loading.present();
 
-    this.getMemberDocs$ = this.membersService.getMemberDocuments(memberId).subscribe(
-      response => {
-        // console.log('RESPONSE', response);
-        if (response) {
-          this.memberDocs = response;
-        }
-      },
-      error => {
-        // console.log('MEMBER DOCS ERROR', error);
-        this.memberDocs = [];
-        this.showToast('Došlo je do greške prilikom preuzimanja dokumenata.');
-      },
-      () => {
-        loading.dismiss();
-      }
-    );
+    // this.getMemberDocs$ = this.membersService.getMemberDocuments(memberId).subscribe(
+    //   response => {
+    //     // console.log('RESPONSE', response);
+    //     if (response) {
+    //       this.memberDocs = response;
+    //     }
+    //   },
+    //   error => {
+    //     // console.log('MEMBER DOCS ERROR', error);
+    //     this.memberDocs = [];
+    //     this.showToast('Došlo je do greške prilikom preuzimanja dokumenata.');
+    //   },
+    //   () => {
+    //     loading.dismiss();
+    //   }
+    // );
   }
 
   resolveCardTitleColor(doc) {

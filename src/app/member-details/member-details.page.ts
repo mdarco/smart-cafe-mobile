@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { MembersService } from '../services/members/members.service';
+// import { MembersService } from '../services/members/members.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -26,13 +26,15 @@ export class MemberDetailsPage implements OnInit, OnDestroy {
 
   memberDetails$: Subscription;
 
-  constructor(private membersService: MembersService) { }
+  constructor(
+    // private membersService: MembersService
+  ) { }
 
   ngOnInit() {
-    this.memberDetails$ = this.membersService.memberDetails_content$.subscribe((details: any) => this.memberDetails = details);
+    // this.memberDetails$ = this.membersService.memberDetails_content$.subscribe((details: any) => this.memberDetails = details);
   }
 
   ngOnDestroy() {
-    this.memberDetails$.unsubscribe();
+    // this.memberDetails$.unsubscribe();
   }
 }

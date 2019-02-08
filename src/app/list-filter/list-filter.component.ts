@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { LoadingController, ToastController, ModalController } from '@ionic/angular';
 
-import { DanceGroupsService } from '../services/dance-groups/dance-groups.service';
+// import { DanceGroupsService } from '../services/dance-groups/dance-groups.service';
 
 @Component({
   selector: 'app-list-filter',
@@ -14,7 +14,7 @@ export class ListFilterComponent implements OnInit, OnDestroy {
   @Input() DanceGroupID: number;
 
   danceGroups: any = [];
-  
+
   modalData = {
     FullName: null,
     Status: null,
@@ -27,7 +27,7 @@ export class ListFilterComponent implements OnInit, OnDestroy {
     private loadingController: LoadingController,
     private toastController: ToastController,
     private modalController: ModalController,
-    private danceGroupsService: DanceGroupsService
+    // private danceGroupsService: DanceGroupsService
   ) { }
 
   ngOnInit() {
@@ -46,24 +46,24 @@ export class ListFilterComponent implements OnInit, OnDestroy {
 
     await loading.present();
 
-    this.danceGroups$ = this.danceGroupsService.getLookup().subscribe(
-      response => {
-        if (response && response['length'] > 0) {
-          this.danceGroups = response;
+    // this.danceGroups$ = this.danceGroupsService.getLookup().subscribe(
+    //   response => {
+    //     if (response && response['length'] > 0) {
+    //       this.danceGroups = response;
 
-          // fill existing values
-          this.populateDialog();
-        }
-      },
-      error => {
-        console.error('DANCE GROUPS LOOKUP ERROR', error);
-        this.danceGroups = [];
-        this.showToast('Došlo je do greške prilikom preuzimanja spiska plesnih grupa.', 'danger');
-      },
-      () => {
-        loading.dismiss();
-      }
-    );
+    //       // fill existing values
+    //       this.populateDialog();
+    //     }
+    //   },
+    //   error => {
+    //     console.error('DANCE GROUPS LOOKUP ERROR', error);
+    //     this.danceGroups = [];
+    //     this.showToast('Došlo je do greške prilikom preuzimanja spiska plesnih grupa.', 'danger');
+    //   },
+    //   () => {
+    //     loading.dismiss();
+    //   }
+    // );
   }
 
   populateDialog() {

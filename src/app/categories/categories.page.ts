@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoadingController, AlertController } from '@ionic/angular';
 
-import { ProductService } from '../../services/products/product.service';
+import { ProductService } from '../services/products/product.service';
 
 @Component({
   selector: 'app-categories',

@@ -5,7 +5,7 @@ import { LoadingController, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 
-import { MembersService } from '../services/members/members.service';
+// import { MembersService } from '../services/members/members.service';
 
 @Component({
   selector: 'app-member-payments',
@@ -19,16 +19,16 @@ export class MemberPaymentsPage implements OnInit {
   memberPayments: any;
 
   constructor(
-    private membersService: MembersService,
+    // private membersService: MembersService,
     private loadingController: LoadingController,
     private toastController: ToastController
   ) { }
 
   ngOnInit() {
-    this.memberDetails$ = this.membersService.memberDetails_content$.subscribe(details => {
-      const memberId = details['MemberID'];
-      this.getMemberPayments(memberId);
-    });
+    // this.memberDetails$ = this.membersService.memberDetails_content$.subscribe(details => {
+    //   const memberId = details['MemberID'];
+    //   this.getMemberPayments(memberId);
+    // });
   }
 
   ngOnDestroy() {
@@ -44,22 +44,22 @@ export class MemberPaymentsPage implements OnInit {
 
     await loading.present();
 
-    this.getMemberPayments$ = this.membersService.getMemberPayments(memberId).subscribe(
-      response => {
-        // console.log('RESPONSE', response);
-        if (response) {
-          this.memberPayments = response;
-        }
-      },
-      error => {
-        // console.log('MEMBER PAYMENTS ERROR', error);
-        this.memberPayments = [];
-        this.showToast('Došlo je do greške prilikom preuzimanja plaćanja.');
-      },
-      () => {
-        loading.dismiss();
-      }
-    );
+    // this.getMemberPayments$ = this.membersService.getMemberPayments(memberId).subscribe(
+    //   response => {
+    //     // console.log('RESPONSE', response);
+    //     if (response) {
+    //       this.memberPayments = response;
+    //     }
+    //   },
+    //   error => {
+    //     // console.log('MEMBER PAYMENTS ERROR', error);
+    //     this.memberPayments = [];
+    //     this.showToast('Došlo je do greške prilikom preuzimanja plaćanja.');
+    //   },
+    //   () => {
+    //     loading.dismiss();
+    //   }
+    // );
   }
 
   resolveMemberPaymentStatusBorder(memberPayment) {
