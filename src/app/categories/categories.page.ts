@@ -66,10 +66,22 @@ export class CategoriesPage implements OnInit, OnDestroy {
     }
   }
 
-  showAlert(msg: string) {
+  showCurrentOrder() {
+    this.showAlert('Prikaz trenutne narudžbine..', 'SmartCafe');
+  }
+
+  deleteCurrentOrder() {
+    this.showAlert('Brisanje trenutne narudžbine..', 'SmartCafe');
+  }
+
+  orderProduct(id) {
+    this.showAlert('Naručivanje..', 'SmartCafe');
+  }
+
+  showAlert(message: string, header: string = 'Greška') {
     const alert = this.alertController.create({
-      message: msg,
-      header: 'Greška',
+      message,
+      header,
       buttons: ['OK']
     });
     alert.then(a => a.present());
