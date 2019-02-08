@@ -7,25 +7,27 @@
 <ion-content padding>
   <ion-list>
     <ion-card
-      *ngFor="let item of productList"
+      *ngFor="let item of productList; let i = index;"
     >
-      <ion-item>
+      <ion-item (click)="openCategory(i)">
         <ion-img src="assets/{{ item.category | lowercase }}.svg" style="width: 24px; height: 24px;" slot="start"></ion-img>
         <ion-label><h2>{{item.category}}</h2></ion-label>
       </ion-item>
 
-      <ion-item *ngFor="let product of item.products" ngIf="darco">
-        <ion-label text-wrap>
-          <ion-text color="primary">
-            <h3>{{ product.name }}</h3>
-          </ion-text>
-          <p>{{ product.subCategoryId[0].name }}</p>
-          <ion-text>
-            <p>{{ product.priceWithVAT }} din</p>
-          </ion-text>
-        </ion-label>
-        <ion-icon name="cart" slot="end"></ion-icon>
-      </ion-item>
+      <div *ngIf="isCategoryOpen(i)">
+        <ion-item *ngFor="let product of item.products">
+          <ion-label text-wrap>
+            <ion-text color="primary">
+              <h3>{{ product.name }}</h3>
+            </ion-text>
+            <p>{{ product.subCategoryId[0].name }}</p>
+            <ion-text>
+              <p>{{ product.priceWithVAT }} din</p>
+            </ion-text>
+          </ion-label>
+          <ion-icon name="cart" slot="end"></ion-icon>
+        </ion-item>
+      </div>
     </ion-card>
   </ion-list>
 </ion-content>

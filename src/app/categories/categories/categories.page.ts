@@ -8,9 +8,11 @@ import { ProductService } from '../../services/products/product.service';
   templateUrl: './categories.page.html',
   styleUrls: ['./categories.page.scss'],
 })
-export class CategoriesPage implements OnInit {
+export class CategoriesPage implements OnInit, OnDestroy {
   productList$: any;
   productList: Array<any> = [];
+
+  openedCategoryIndex?: number = null;
 
   constructor(
     private productService: ProductService,
@@ -50,6 +52,18 @@ export class CategoriesPage implements OnInit {
         loading.dismiss();
       }
     );
+  }
+
+  openCategory(index: number) {
+    this.openedCategoryIndex = index;
+  }
+
+  isCategoryOpen(index: number) {
+    if (!this.openedCategoryIndex && this.openedCategoryIndex !== 0) {
+      return false;
+    } else {
+      return index === this.openedCategoryIndex;
+    }
   }
 
   showAlert(msg: string) {
