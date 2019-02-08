@@ -16,9 +16,14 @@ export class AppComponent {
 
   public appPages = [
     {
-      title: 'Plesači',
-      url: '/list',
+      title: 'Meni',
+      url: '/categories',
       icon: 'list'
+    },
+    {
+      title: 'Admin',
+      url: '/admin',
+      icon: 'settings'
     }
   ];
 

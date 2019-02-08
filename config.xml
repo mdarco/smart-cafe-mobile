@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.darcosolutions.dfmobile" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Dance Factory</name>
-    <description>Dance Factory management application</description>
+    <name>SmartCafe</name>
+    <description>SmartCafe mobile application</description>
     <author email="dmilutinovic@gmail.com" href="">Darco Solutions</author>
     <content src="index.html" />
     <access origin="*" />
