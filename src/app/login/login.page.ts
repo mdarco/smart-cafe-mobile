@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoadingController, AlertController } from '@ionic/angular';
+import { take } from 'rxjs/operators';
 
 import { AuthService } from '../services/auth/auth.service';
 import { environment } from '../../environments/environment';
@@ -14,8 +15,10 @@ import { TableService } from '../services/tables/table.service';
 export class LoginPage implements OnInit, OnDestroy {
   username: string;
   password: string;
+  tableId: string;
 
   private login$: any;
+  private inUse$: any;
 
   private tables$: any;
   tables: Array<any> = [];
@@ -34,6 +37,7 @@ export class LoginPage implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.login$.unsubscribe();
     this.tables$.unsubscribe();
+    this.inUse$.unsubscribe();
   }
 
   async getTables() {
@@ -62,13 +66,32 @@ export class LoginPage implements OnInit, OnDestroy {
     );
   }
 
+  async isTableInUse(id) {
+    // return this.tableService.getTable(id).pipe(take(1));
+    this.inUse$ = this.tableService.getTable(id).pipe(take(1));
+    return this.inUse$;
+  }
+
   async login() {
+    if (!this.tableId) {
+      this.showAlert('Niste izabrali sto.');
+      return;
+    }
+
     const loading = await this.loadingController.create({
       spinner: 'circles',
       message: 'Prijava u toku...'
     });
 
     await loading.present();
+
+    const isTableInUse = await this.isTableInUse(this.tableId);
+    console.log('TABLE IN USE', isTableInUse);
+    if (isTableInUse) {
+      this.showAlert('Sto je već izabran.');
+      loading.dismiss();
+      return;
+    }
 
     this.login$ = this.authService.login({
       username: this.username,

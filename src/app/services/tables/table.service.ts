@@ -18,6 +18,11 @@ export class TableService {
     return this.http.get(url);
   }
 
+  getTable(id) {
+    const url = this.apiUrl + this.rootUrl + '/' + id + '?nd=' + Date.now();
+    return this.http.get(url);
+  }
+
   updateTable(id, model) {
     const url = this.apiUrl + this.rootUrl + '/' + id;
     return this.http.put(url, model);
