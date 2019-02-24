@@ -4,6 +4,8 @@ import { LoadingController, AlertController } from '@ionic/angular';
 import { AuthService } from '../services/auth/auth.service';
 import { environment } from '../../environments/environment';
 
+import { TableService } from '../services/tables/table.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -15,16 +17,49 @@ export class LoginPage implements OnInit, OnDestroy {
 
   private login$: any;
 
+  private tables$: any;
+  tables: Array<any> = [];
+
   constructor(
     private authService: AuthService,
+    private tableService: TableService,
     private loadingController: LoadingController,
     private alertController: AlertController
   ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.getTables();
+  }
 
   ngOnDestroy() {
     this.login$.unsubscribe();
+    this.tables$.unsubscribe();
+  }
+
+  async getTables() {
+    const loading = await this.loadingController.create({
+      spinner: 'circles',
+      message: 'Molim Vas sačekajte, stolovi se učitavaju...'
+    });
+
+    await loading.present();
+
+    this.tableService.getTables().subscribe(
+      (response: any) => {
+        console.log('TABLES', response);
+        if (response) {
+          this.tables = response;
+        }
+      },
+      error => {
+        // console.log('TABLES ERROR', error);
+        this.tables = [];
+        this.showAlert('Došlo je do greške prilikom preuzimanja spiska stolova.');
+      },
+      () => {
+        loading.dismiss();
+      }
+    );
   }
 
   async login() {
