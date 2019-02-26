@@ -25,6 +25,6 @@ export class TableService {
 
   updateTable(id, model) {
     const url = this.apiUrl + this.rootUrl + '/' + id;
-    return this.http.put(url, model);
+    return this.http.put(url, model).toPromise();
   }
 }

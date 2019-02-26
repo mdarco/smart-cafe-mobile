@@ -9,9 +9,9 @@
 				<ion-input type="password" [(ngModel)]="password" placeholder="Lozinka"></ion-input>
 			</ion-item>
 			<ion-item>
-				<ion-label>Izaberite sto:</ion-label>
-				<ion-select [(ngModel)]="tableID" cancelText="Odustani">
-					<ion-select-option *ngFor="let table of tables" value="{{ 'sctableid_' + table._id }}">{{ table.tag }}</ion-select-option>
+				<ion-label>Izaberite sto</ion-label>
+				<ion-select [(ngModel)]="tableId" cancelText="Odustani">
+					<ion-select-option *ngFor="let table of tables" value="{{ table._id }}">{{ table.tag }}</ion-select-option>
 				</ion-select>
 			</ion-item>
 			<ion-button size="large" expand="block" (click)="login()" style="margin-top: 30px;">Prijava</ion-button>

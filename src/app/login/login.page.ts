@@ -37,7 +37,6 @@ export class LoginPage implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.login$.unsubscribe();
     this.tables$.unsubscribe();
-    this.inUse$.unsubscribe();
   }
 
   async getTables() {
@@ -66,13 +65,12 @@ export class LoginPage implements OnInit, OnDestroy {
     );
   }
 
-  async isTableInUse(id) {
-    // return this.tableService.getTable(id).pipe(take(1));
-    this.inUse$ = this.tableService.getTable(id).pipe(take(1));
-    return this.inUse$;
+  async getTable(id) {
+    return this.tableService.getTable(id).pipe(take(1)).toPromise();
   }
 
   async login() {
+    // console.log('TABLE ID', this.tableId);
     if (!this.tableId) {
       this.showAlert('Niste izabrali sto.');
       return;
@@ -85,9 +83,9 @@ export class LoginPage implements OnInit, OnDestroy {
 
     await loading.present();
 
-    const isTableInUse = await this.isTableInUse(this.tableId);
-    console.log('TABLE IN USE', isTableInUse);
-    if (isTableInUse) {
+    const selectedTable: any = await this.getTable(this.tableId);
+    // console.log('TABLE', selectedTable);
+    if (selectedTable.isInUse === true) {
       this.showAlert('Sto je već izabran.');
       loading.dismiss();
       return;
@@ -95,7 +93,8 @@ export class LoginPage implements OnInit, OnDestroy {
 
     this.login$ = this.authService.login({
       username: this.username,
-      password: btoa(this.password)
+      password: btoa(this.password),
+      table: selectedTable
     }).subscribe(
       result => {},
       error => {
@@ -104,6 +103,7 @@ export class LoginPage implements OnInit, OnDestroy {
         loading.dismiss();
         this.username = undefined;
         this.password = undefined;
+        this.tableId = undefined;
         this.showAlert(error.message);
       },
       () => {
@@ -111,6 +111,7 @@ export class LoginPage implements OnInit, OnDestroy {
         loading.dismiss();
         this.username = undefined;
         this.password = undefined;
+        this.tableId = undefined;
     });
   }
 

@@ -10,6 +10,8 @@ import { BehaviorSubject } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 
+import { TableService } from '../tables/table.service';
+
 const TOKEN_KEY = 'sc_access_token';
 
 @Injectable({
@@ -20,11 +22,14 @@ export class AuthService {
 
   authenticationState = new BehaviorSubject(false);
 
+  selectedTable: any;
+
   constructor(
     private http: HttpClient,
     private jwtHelper: JwtHelperService,
     private storage: Storage,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private tableService: TableService
   ) { }
 
   checkToken() {
@@ -51,8 +56,17 @@ export class AuthService {
             throw new Error('Korisničko ime i/ili lozinka nisu ispravni.');
           } else {
             this.storage.set(TOKEN_KEY, response['Token']);
-            // TODO: extract user data from token!
-            this.authenticationState.next(true);
+            // TODO: extract user data from token or send user data in response!
+
+            // set selected table in use
+            this.tableService.updateTable(credentials.table._id, { isInUse: true })
+              .then(result => {
+                this.selectedTable = credentials.table;
+                this.authenticationState.next(true);
+              })
+              .catch(error => {
+                throw new Error('Došlo je do greške prilikom rezervacije stola.');
+              });
           }
         }),
         catchError(e => {
@@ -74,6 +88,10 @@ export class AuthService {
 
   isAuthenticated() {
     return this.authenticationState.value;
+  }
+
+  getCurrentTable() {
+    return this.selectedTable;
   }
 
   showAlert(msg: string) {
