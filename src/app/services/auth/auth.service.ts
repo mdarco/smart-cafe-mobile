@@ -77,9 +77,16 @@ export class AuthService {
   }
 
   logout() {
-    this.storage.remove(TOKEN_KEY).then(() => {
-      this.authenticationState.next(false);
-    });
+    // release selected table
+    this.tableService.updateTable(this.selectedTable._id, { isInUse: false })
+      .then(() => {
+        this.storage.remove(TOKEN_KEY).then(() => {
+          this.authenticationState.next(false);
+        });
+      })
+      .catch(error => {
+        throw new Error('Došlo je do greške prilikom oslobađanja stola.');
+      });
   }
 
   setAuthState(newState: boolean) {

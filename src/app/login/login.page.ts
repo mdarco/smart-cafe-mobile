@@ -49,7 +49,7 @@ export class LoginPage implements OnInit, OnDestroy {
 
     this.tableService.getTables().subscribe(
       (response: any) => {
-        console.log('TABLES', response);
+        // console.log('TABLES', response);
         if (response) {
           this.tables = response;
         }
