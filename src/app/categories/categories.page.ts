@@ -4,6 +4,7 @@ import { LoadingController, AlertController, ModalController } from '@ionic/angu
 import { AddToCartComponent } from '../add-to-cart/add-to-cart.component';
 
 import { ProductService } from '../services/products/product.service';
+import { OrderService } from '../services/orders/order.service';
 
 @Component({
   selector: 'app-categories',
@@ -16,8 +17,11 @@ export class CategoriesPage implements OnInit, OnDestroy {
 
   openedCategoryIndex?: number = null;
 
+  currentSubOrder_itemsCount: number = undefined;
+
   constructor(
     private productService: ProductService,
+    private orderService: OrderService,
     private loadingController: LoadingController,
     private alertController: AlertController,
     private modalController: ModalController
@@ -86,7 +90,19 @@ export class CategoriesPage implements OnInit, OnDestroy {
     const { data } = await modal.onDidDismiss();
 
     if (data) {
-      console.log('Modal data', data);
+      const orderItem = {
+        productId: id,
+        quantity: data.qty,
+        note: data.note
+      };
+
+      this.orderService.addOrderItemToCurrentSubOrder(orderItem);
+      
+      if (this.orderService.getCurrentSubOrder()) {
+        this.currentSubOrder_itemsCount = this.orderService.getCurrentSubOrder().orderItems.length > 0 ? this.orderService.getCurrentSubOrder().orderItems.length : undefined;
+      }
+
+      console.log('Current sub-order', this.orderService.getCurrentSubOrder());
     }
   }
 

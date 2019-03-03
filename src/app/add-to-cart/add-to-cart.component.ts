@@ -8,8 +8,8 @@ import { ToastController, ModalController } from '@ionic/angular';
 })
 export class AddToCartComponent implements OnInit, OnDestroy {
   modalData = {
-    qty: Number,
-    note: String
+    qty: 1,
+    note: ''
   };
 
   constructor(
@@ -22,6 +22,11 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   ngOnDestroy() {}
 
   applyOrder() {
+    if (!this.modalData.qty) {
+      this.showToast('Niste zadali količinu.', 'warning');
+      return;
+    }
+
     this.modalController.dismiss(this.modalData);
   }
 

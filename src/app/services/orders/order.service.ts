@@ -15,7 +15,7 @@ interface SubOrder {
   providedIn: 'root'
 })
 export class OrderService {
-  subOrders: SubOrder[];
+  subOrders: SubOrder[] = [];
   currentOrder = undefined;
 
   apiUrl = environment.apiUrl;
@@ -43,17 +43,21 @@ export class OrderService {
   }
 
   getCurrentSubOrder() {
-    return this.subOrders.find(so => !so.isOrdered);
+    if (this.subOrders && this.subOrders.length > 0) {
+      return this.subOrders.find(so => !so.isOrdered);
+    }
+    return null;
   }
 
   addOrderItemToCurrentSubOrder(item) {
-    const so = this.getCurrentSubOrder();
+    let so = this.getCurrentSubOrder();
     if (!so) {
       this.subOrders.push({
         date: new Date(),
         orderItems: [],
         isOrdered: false
       });
+      so = this.subOrders[0];
     }
 
     const existingItem = so.orderItems.find(e => e.productId === item.productId);
