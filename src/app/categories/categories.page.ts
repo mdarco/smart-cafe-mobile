@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { LoadingController, AlertController } from '@ionic/angular';
+import { LoadingController, AlertController, ModalController } from '@ionic/angular';
+
+import { AddToCartComponent } from '../add-to-cart/add-to-cart.component';
 
 import { ProductService } from '../services/products/product.service';
 
@@ -17,7 +19,8 @@ export class CategoriesPage implements OnInit, OnDestroy {
   constructor(
     private productService: ProductService,
     private loadingController: LoadingController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {
@@ -74,8 +77,17 @@ export class CategoriesPage implements OnInit, OnDestroy {
     this.showAlert('Brisanje trenutne narudžbine..', 'SmartCafe');
   }
 
-  orderProduct(id) {
-    this.showAlert('Naručivanje..', 'SmartCafe');
+  async orderProduct(id) {
+    const modal = await this.modalController.create({
+      component: AddToCartComponent
+    });
+    await modal.present();
+
+    const { data } = await modal.onDidDismiss();
+
+    if (data) {
+      console.log('Modal data', data);
+    }
   }
 
   showAlert(message: string, header: string = 'Greška') {
