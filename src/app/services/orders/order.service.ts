@@ -38,6 +38,11 @@ export class OrderService {
     return this.http.post(url, model).toPromise();
   }
 
+  updateOrder(id, model) {
+    const url = this.apiUrl + this.rootUrl + '/' + id;
+    return this.http.put(url, model).toPromise();
+  }
+
   getCurrentOrder() {
     return this.currentOrder;
   }
@@ -83,8 +88,6 @@ export class OrderService {
           orderItems: so.orderItems
         };
 
-        console.log('NEW ORDER', newOrder);
-
         try {
           const order = await this.createOrder(newOrder);
           if (order) {
@@ -94,9 +97,11 @@ export class OrderService {
         } catch (error) {
           throw new Error('Narudžbina se ne može kreirati.');
         }
+      } else {
+        // existing order
+        // TODO: update order with current sub-order
+        so.isOrdered = true;
       }
-
-      // TODO: update order in DB
     }
   }
 }
