@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoadingController, AlertController, ModalController } from '@ionic/angular';
 
 import { AddToCartComponent } from '../add-to-cart/add-to-cart.component';
+import { ShowCartComponent } from '../show-cart/show-cart.component';
 
 import { ProductService } from '../services/products/product.service';
 import { OrderService } from '../services/orders/order.service';
@@ -73,8 +74,11 @@ export class CategoriesPage implements OnInit, OnDestroy {
     }
   }
 
-  showCurrentOrder() {
-    this.showAlert('Prikaz trenutne narudžbine..', 'SmartCafe');
+  async showCurrentOrder() {
+    const modal = await this.modalController.create({
+      component: ShowCartComponent
+    });
+    await modal.present();
   }
 
   deleteCurrentOrder() {

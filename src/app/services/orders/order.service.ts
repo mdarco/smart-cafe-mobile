@@ -68,6 +68,10 @@ export class OrderService {
     }
   }
 
+  deleteOrderItemFromCurrentSubOrder(item) {
+    this.getCurrentSubOrder().orderItems = this.getCurrentSubOrder().orderItems.filter(orderItem => orderItem.productId !== item.productId);
+  }
+
   async placeCurrentSubOrder() {
     const so = this.getCurrentSubOrder();
     if (so) {
@@ -79,6 +83,8 @@ export class OrderService {
           orderItems: so.orderItems
         };
 
+        console.log('NEW ORDER', newOrder);
+
         try {
           const order = await this.createOrder(newOrder);
           if (order) {
@@ -89,6 +95,8 @@ export class OrderService {
           throw new Error('Narudžbina se ne može kreirati.');
         }
       }
+
+      // TODO: update order in DB
     }
   }
 }

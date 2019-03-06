@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { CategoriesPage } from './categories.page';
 import { AddToCartComponent } from '../add-to-cart/add-to-cart.component';
+import { ShowCartComponent } from '../show-cart/show-cart.component';
 
 const routes: Routes = [
   {
@@ -24,10 +25,12 @@ const routes: Routes = [
   ],
   declarations: [
     CategoriesPage,
-    AddToCartComponent
+    AddToCartComponent,
+    ShowCartComponent
   ],
   entryComponents: [
-    AddToCartComponent
+    AddToCartComponent,
+    ShowCartComponent
   ]
 })
 export class CategoriesPageModule {}
