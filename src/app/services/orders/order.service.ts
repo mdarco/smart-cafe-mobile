@@ -98,9 +98,27 @@ export class OrderService {
           throw new Error('Narudžbina se ne može kreirati.');
         }
       } else {
-        // existing order
-        // TODO: update order with current sub-order
-        so.isOrdered = true;
+        // update existing order with current sub-order
+        const oldCurrentOrder = { ...this.currentOrder };
+        so.orderItems.forEach(item => {
+          const existingOrderItem = this.currentOrder.orderItems.find({ productId: item.productId });
+          if (!existingOrderItem) {
+            this.currentOrder.orderItems.push(item);
+          } else {
+            existingOrderItem.quantity += item.quantity;
+          }
+        });
+
+        try {
+          const order = await this.updateOrder(this.currentOrder._id, { ...this.currentOrder });
+          if (order) {
+            this.currentOrder = order;
+            so.isOrdered = true;
+          }
+        } catch(error) {
+          this.currentOrder = oldCurrentOrder;
+          throw new Error('Došlo je do greške prilikom ažuriranja narudžbine.');
+        }
       }
     }
   }
