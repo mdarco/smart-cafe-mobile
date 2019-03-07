@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { UserAuthenticatedGuardService } from './services/auth-guards/authenticated/user-authenticated-guard.service';
+// import { UserAuthenticatedGuardService } from './services/auth-guards/authenticated/user-authenticated-guard.service';
 
 const routes: Routes = [
   {
@@ -25,17 +25,6 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: './admin/admin.module#AdminPageModule'
   }
-
-  // {
-  //   path: 'list',
-  //   loadChildren: './list/list.module#ListPageModule',
-  //   canActivate: [UserAuthenticatedGuardService]
-  // },
-  // {
-  //   path: 'list/:id',
-  //   loadChildren: './member/member.module#MemberPageModule',
-  //   canActivate: [UserAuthenticatedGuardService]
-  // },
 ];
 
 @NgModule({

@@ -9,6 +9,8 @@ import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -23,6 +25,11 @@ export function jwtOptionsFactory(storage) {
     whitelistedDomains: [environment.apiUrl]
   };
 }
+
+const ioConfig: SocketIoConfig = {
+  url: environment.apiUrl,
+  options: {}
+};
 
 @NgModule({
   declarations: [
@@ -42,7 +49,8 @@ export function jwtOptionsFactory(storage) {
         useFactory: jwtOptionsFactory,
         deps: [Storage],
       }
-    })
+    }),
+    SocketIoModule.forRoot(ioConfig)
   ],
   providers: [
     StatusBar,

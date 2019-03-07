@@ -6,6 +6,7 @@ import { ShowCartComponent } from '../show-cart/show-cart.component';
 
 import { ProductService } from '../services/products/product.service';
 import { OrderService } from '../services/orders/order.service';
+import { RealTimeService } from '../services/real-time/real-time.service';
 
 @Component({
   selector: 'app-categories',
@@ -23,6 +24,7 @@ export class CategoriesPage implements OnInit, OnDestroy {
   constructor(
     private productService: ProductService,
     private orderService: OrderService,
+    private realTimeService: RealTimeService,
     private loadingController: LoadingController,
     private alertController: AlertController,
     private modalController: ModalController
@@ -64,6 +66,9 @@ export class CategoriesPage implements OnInit, OnDestroy {
 
   openCategory(index: number) {
     this.openedCategoryIndex = index;
+
+    console.log('category:opened event sent over web socket connection');
+    this.realTimeService.emitEvent('category:opened', 'index = ' + index);
   }
 
   isCategoryOpen(index: number) {
@@ -101,9 +106,11 @@ export class CategoriesPage implements OnInit, OnDestroy {
       };
 
       this.orderService.addOrderItemToCurrentSubOrder(orderItem);
-      
+
       if (this.orderService.getCurrentSubOrder()) {
-        this.currentSubOrder_itemsCount = this.orderService.getCurrentSubOrder().orderItems.length > 0 ? this.orderService.getCurrentSubOrder().orderItems.length : undefined;
+        this.currentSubOrder_itemsCount =
+          this.orderService.getCurrentSubOrder().orderItems.length > 0 ?
+            this.orderService.getCurrentSubOrder().orderItems.length : undefined;
       }
 
       console.log('Current sub-order', this.orderService.getCurrentSubOrder());
