@@ -101,6 +101,7 @@ export class OrderService {
         // update existing order with current sub-order
         const oldCurrentOrder = { ...this.currentOrder };
         so.orderItems.forEach(item => {
+          console.log('CURRENT ORDER ITEMS', this.currentOrder.orderItems);
           const existingOrderItem = this.currentOrder.orderItems.find({ productId: item.productId });
           if (!existingOrderItem) {
             this.currentOrder.orderItems.push(item);

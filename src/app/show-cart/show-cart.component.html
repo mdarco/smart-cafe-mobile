@@ -14,7 +14,7 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let orderItem of currentSubOrder.orderItems">
+    <ion-item *ngFor="let orderItem of currentSubOrder?.orderItems">
       <ion-label text-wrap>
         <ion-text color="primary">
           <h3>{{ orderItem.productId }}</h3>
