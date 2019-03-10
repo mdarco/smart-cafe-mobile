@@ -33,9 +33,13 @@ export class ShowCartComponent implements OnInit {
         },
         {
           text: 'Da',
-          handler: () => {
-            this.orderService.placeCurrentSubOrder();
-            this.cancel();
+          handler: async () => {
+            try {
+              await this.orderService.placeCurrentSubOrder();
+              this.cancel();
+            } catch(error) {
+              this.showAlert(error.message);
+            }
           }
         }
       ]
@@ -66,5 +70,14 @@ export class ShowCartComponent implements OnInit {
 
   cancel() {
     this.modalController.dismiss();
+  }
+
+  showAlert(message: string, header: string = 'Greška') {
+    const alert = this.alertController.create({
+      message,
+      header,
+      buttons: ['OK']
+    });
+    alert.then(a => a.present());
   }
 }

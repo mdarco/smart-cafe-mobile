@@ -77,50 +77,56 @@ export class OrderService {
     this.getCurrentSubOrder().orderItems = this.getCurrentSubOrder().orderItems.filter(orderItem => orderItem.productId !== item.productId);
   }
 
-  async placeCurrentSubOrder() {
-    const so = this.getCurrentSubOrder();
-    if (so) {
-      if (!this.currentOrder || !this.currentOrder._id) {
-        const newOrder = {
-          tableId: this.authService.getCurrentTable(),
-          orderDate: new Date(),
-          isClosed: false,
-          orderItems: so.orderItems
-        };
+  placeCurrentSubOrder() {
+    const promise = new Promise(async (resolve, reject) => {
+      const so = this.getCurrentSubOrder();
+      if (so) {
+        if (!this.currentOrder || !this.currentOrder._id) {
+          const newOrder = {
+            tableId: this.authService.getCurrentTable(),
+            orderDate: new Date(),
+            isClosed: false,
+            orderItems: so.orderItems
+          };
 
-        try {
-          const order = await this.createOrder(newOrder);
-          if (order) {
-            this.currentOrder = order;
-            so.isOrdered = true;
+          try {
+            const order = await this.createOrder(newOrder);
+            if (order) {
+              this.currentOrder = order;
+              so.isOrdered = true;
+            }
+            resolve(order);
+          } catch (error) {
+            reject(new Error('Narudžbina se ne može kreirati.'));
           }
-        } catch (error) {
-          throw new Error('Narudžbina se ne može kreirati.');
-        }
-      } else {
-        // update existing order with current sub-order
-        const oldCurrentOrder = { ...this.currentOrder };
-        so.orderItems.forEach(item => {
-          console.log('CURRENT ORDER ITEMS', this.currentOrder.orderItems);
-          const existingOrderItem = this.currentOrder.orderItems.find({ productId: item.productId });
-          if (!existingOrderItem) {
-            this.currentOrder.orderItems.push(item);
-          } else {
-            existingOrderItem.quantity += item.quantity;
-          }
-        });
+        } else {
+          // update existing order with current sub-order
+          const oldCurrentOrder = { ...this.currentOrder };
+          so.orderItems.forEach(item => {
+            console.log('CURRENT ORDER ITEMS', this.currentOrder.orderItems);
+            const existingOrderItem = this.currentOrder.orderItems.find({ productId: item.productId });
+            if (!existingOrderItem) {
+              this.currentOrder.orderItems.push(item);
+            } else {
+              existingOrderItem.quantity += item.quantity;
+            }
+          });
 
-        try {
-          const order = await this.updateOrder(this.currentOrder._id, { ...this.currentOrder });
-          if (order) {
-            this.currentOrder = order;
-            so.isOrdered = true;
+          try {
+            const order = await this.updateOrder(this.currentOrder._id, { ...this.currentOrder });
+            if (order) {
+              this.currentOrder = order;
+              so.isOrdered = true;
+            }
+            resolve(order);
+          } catch(error) {
+            this.currentOrder = oldCurrentOrder;
+            reject(new Error('Došlo je do greške prilikom ažuriranja narudžbine.'));
           }
-        } catch(error) {
-          this.currentOrder = oldCurrentOrder;
-          throw new Error('Došlo je do greške prilikom ažuriranja narudžbine.');
         }
       }
-    }
+    });
+
+    return promise;
   }
 }
