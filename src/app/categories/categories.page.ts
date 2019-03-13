@@ -90,11 +90,33 @@ export class CategoriesPage implements OnInit, OnDestroy {
     this.setCurrentSubOrder_ItemsCount();
   }
 
-  deleteCurrentOrder() {
-    this.showAlert('Brisanje trenutne narudžbine..', 'SmartCafe');
+  async deleteCurrentOrder() {
+    const alert = await this.alertController.create({
+      header: 'SmartCafe',
+      message: 'Da li ste sigurni?',
+      buttons: [
+        {
+          text: 'Ne',
+          role: 'cancel',
+          handler: () => {}
+        },
+        {
+          text: 'Da',
+          handler: async () => {
+            try {
+              await this.orderService.deleteCurrentSubOrder();
+              this.setCurrentSubOrder_ItemsCount();
+            } catch (error) {
+              this.showAlert(error.message);
+            }
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 
-  async orderProduct(id) {
+  async orderProduct(product) {
     const modal = await this.modalController.create({
       component: AddToCartComponent
     });
@@ -104,7 +126,8 @@ export class CategoriesPage implements OnInit, OnDestroy {
 
     if (data) {
       const orderItem = {
-        productId: id,
+        productId: product._id,
+        name: product.name,
         quantity: data.qty,
         note: data.note
       };

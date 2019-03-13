@@ -115,7 +115,7 @@ export class OrderService {
           try {
             const order = await this.updateOrder(this.currentOrder._id, { ...this.currentOrder });
             if (order) {
-              console.log('UPDATED ORDER', order);
+              // console.log('UPDATED ORDER', order);
               this.currentOrder = order;
               so.isOrdered = true;
             }
@@ -129,5 +129,9 @@ export class OrderService {
     });
 
     return promise;
+  }
+
+  deleteCurrentSubOrder() {
+    this.subOrders = this.subOrders.filter(so => so.isOrdered);
   }
 }

@@ -17,7 +17,7 @@
     <ion-item *ngFor="let orderItem of currentSubOrder?.orderItems">
       <ion-label text-wrap>
         <ion-text color="primary">
-          <h3>{{ orderItem.productId }}</h3>
+          <h3>{{ orderItem.name }}</h3>
         </ion-text>
         <p>Količina: {{ orderItem.quantity }}</p>
         <p [hidden]="!orderItem.note">Napomena: {{ orderItem.note }}</p>
