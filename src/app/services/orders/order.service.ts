@@ -62,7 +62,7 @@ export class OrderService {
         orderItems: [],
         isOrdered: false
       });
-      so = this.subOrders[0];
+      so = this.getCurrentSubOrder();
     }
 
     const existingItem = so.orderItems.find(e => e.productId === item.productId);
@@ -103,8 +103,8 @@ export class OrderService {
           // update existing order with current sub-order
           const oldCurrentOrder = { ...this.currentOrder };
           so.orderItems.forEach(item => {
-            console.log('CURRENT ORDER ITEMS', this.currentOrder.orderItems);
-            const existingOrderItem = this.currentOrder.orderItems.find({ productId: item.productId });
+            const existingOrderItem: any =
+              Array.from(this.currentOrder.orderItems).find((orderItem: any) => orderItem.productId === item.productId);
             if (!existingOrderItem) {
               this.currentOrder.orderItems.push(item);
             } else {
@@ -115,11 +115,12 @@ export class OrderService {
           try {
             const order = await this.updateOrder(this.currentOrder._id, { ...this.currentOrder });
             if (order) {
+              console.log('UPDATED ORDER', order);
               this.currentOrder = order;
               so.isOrdered = true;
             }
             resolve(order);
-          } catch(error) {
+          } catch (error) {
             this.currentOrder = oldCurrentOrder;
             reject(new Error('Došlo je do greške prilikom ažuriranja narudžbine.'));
           }

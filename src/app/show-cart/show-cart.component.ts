@@ -37,7 +37,7 @@ export class ShowCartComponent implements OnInit {
             try {
               await this.orderService.placeCurrentSubOrder();
               this.cancel();
-            } catch(error) {
+            } catch (error) {
               this.showAlert(error.message);
             }
           }

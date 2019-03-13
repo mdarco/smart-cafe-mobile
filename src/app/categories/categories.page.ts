@@ -84,6 +84,10 @@ export class CategoriesPage implements OnInit, OnDestroy {
       component: ShowCartComponent
     });
     await modal.present();
+
+    await modal.onDidDismiss();
+
+    this.setCurrentSubOrder_ItemsCount();
   }
 
   deleteCurrentOrder() {
@@ -107,13 +111,19 @@ export class CategoriesPage implements OnInit, OnDestroy {
 
       this.orderService.addOrderItemToCurrentSubOrder(orderItem);
 
-      if (this.orderService.getCurrentSubOrder()) {
-        this.currentSubOrder_itemsCount =
-          this.orderService.getCurrentSubOrder().orderItems.length > 0 ?
-            this.orderService.getCurrentSubOrder().orderItems.length : undefined;
-      }
+      this.setCurrentSubOrder_ItemsCount();
 
-      console.log('Current sub-order', this.orderService.getCurrentSubOrder());
+      // console.log('Current sub-order', this.orderService.getCurrentSubOrder());
+    }
+  }
+
+  setCurrentSubOrder_ItemsCount() {
+    if (this.orderService.getCurrentSubOrder()) {
+      this.currentSubOrder_itemsCount =
+        this.orderService.getCurrentSubOrder().orderItems.length > 0 ?
+          this.orderService.getCurrentSubOrder().orderItems.length : undefined;
+    } else {
+      this.currentSubOrder_itemsCount = undefined;
     }
   }
 
