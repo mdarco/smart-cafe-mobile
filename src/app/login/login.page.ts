@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { take } from 'rxjs/operators';
 
-import { AuthService } from '../services/auth/auth.service';
 import { environment } from '../../environments/environment';
 
+import { AuthService } from '../services/auth/auth.service';
 import { TableService } from '../services/tables/table.service';
 
 @Component({

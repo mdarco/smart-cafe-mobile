@@ -66,9 +66,6 @@ export class CategoriesPage implements OnInit, OnDestroy {
 
   openCategory(index: number) {
     this.openedCategoryIndex = index;
-
-    console.log('category:opened event sent over web socket connection');
-    this.realTimeService.emitEvent('category:opened', 'index = ' + index);
   }
 
   isCategoryOpen(index: number) {
