@@ -48,7 +48,7 @@ export class CategoriesPage implements OnInit, OnDestroy {
 
     this.productList$ = this.productService.getProductList().subscribe(
       (response: any) => {
-        console.log('RESPONSE', response);
+        // console.log('RESPONSE', response);
         if (response) {
           this.productList = response;
         }

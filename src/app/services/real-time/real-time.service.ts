@@ -5,9 +5,9 @@ import { Socket } from 'ngx-socket-io';
   providedIn: 'root'
 })
 export class RealTimeService {
-  constructor(private socket: Socket) { }
+  constructor(private socket: Socket) {}
 
-  emitEvent(eventName, eventMessage) {
+  emitEvent(eventName: string, eventMessage?: any) {
     this.socket.emit(eventName, eventMessage);
   }
 }

@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 
 import { AuthService } from '../services/auth/auth.service';
 import { TableService } from '../services/tables/table.service';
+import { RealTimeService } from '../services/real-time/real-time.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,6 @@ export class LoginPage implements OnInit, OnDestroy {
   tableId: string;
 
   private login$: any;
-  private inUse$: any;
 
   private tables$: any;
   tables: Array<any> = [];
@@ -26,6 +26,7 @@ export class LoginPage implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private tableService: TableService,
+    private realTimeService: RealTimeService,
     private loadingController: LoadingController,
     private alertController: AlertController
   ) { }
@@ -58,6 +59,7 @@ export class LoginPage implements OnInit, OnDestroy {
         // console.log('TABLES ERROR', error);
         this.tables = [];
         this.showAlert('Došlo je do greške prilikom preuzimanja spiska stolova.');
+        loading.dismiss();
       },
       () => {
         loading.dismiss();
@@ -96,7 +98,9 @@ export class LoginPage implements OnInit, OnDestroy {
       password: btoa(this.password),
       table: selectedTable
     }).subscribe(
-      result => {},
+      result => {
+        this.realTimeService.emitEvent('login::success', selectedTable);
+      },
       error => {
         // console.log('LOGIN ERROR', error);
         console.log('API url:', environment.apiUrl);

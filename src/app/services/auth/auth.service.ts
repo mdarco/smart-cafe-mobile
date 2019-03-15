@@ -11,6 +11,7 @@ import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 import { TableService } from '../tables/table.service';
+import { RealTimeService } from '../real-time/real-time.service';
 
 const TOKEN_KEY = 'sc_access_token';
 
@@ -29,7 +30,8 @@ export class AuthService {
     private jwtHelper: JwtHelperService,
     private storage: Storage,
     private alertController: AlertController,
-    private tableService: TableService
+    private tableService: TableService,
+    private realTimeService: RealTimeService
   ) { }
 
   checkToken() {
@@ -81,6 +83,7 @@ export class AuthService {
     this.tableService.updateTable(this.selectedTable._id, { isInUse: false })
       .then(() => {
         this.storage.remove(TOKEN_KEY).then(() => {
+          this.realTimeService.emitEvent('logout', null);
           this.authenticationState.next(false);
         });
       })
